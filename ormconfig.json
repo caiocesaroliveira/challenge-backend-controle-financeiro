@@ -1,0 +1,13 @@
+{
+  "type": "sqlite",
+  "port": 5432,
+  "host": "localhost",
+  "username": "alurachallenge",
+  "password": "alurachallenge",
+  "database": "./src/database/alurachallenge.sqlite",
+  "migrations": ["./src/database/migrations/*.ts"],
+  "entities": ["./src/models/**/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/database/migrations"
+  }
+}
