@@ -6,7 +6,7 @@
   "password": "alurachallenge",
   "database": "./src/database/alurachallenge.sqlite",
   "migrations": ["./src/database/migrations/*.ts"],
-  "entities": ["./src/models/**/*.ts"],
+  "entities": ["./src/entities/**/*.ts"],
   "cli": {
     "migrationsDir": "./src/database/migrations"
   }
