@@ -1,3 +1,5 @@
+import { inject, injectable } from "tsyringe";
+
 import { IExpensesRepository } from "../../repositories/IExpensesRepository";
 
 interface ICreateExpenseRequest {
@@ -6,8 +8,12 @@ interface ICreateExpenseRequest {
   date: Date;
 }
 
+@injectable()
 class CreateExpenseUseCase {
-  constructor(private expenseRepository: IExpensesRepository) {}
+  constructor(
+    @inject("ExpensesRepository")
+    private expenseRepository: IExpensesRepository
+  ) {}
 
   async execute({
     description,
@@ -22,7 +28,7 @@ class CreateExpenseUseCase {
       throw new Error("Expense already exists!");
     }
 
-    this.expenseRepository.create({
+    await this.expenseRepository.create({
       description,
       amount,
       date,
