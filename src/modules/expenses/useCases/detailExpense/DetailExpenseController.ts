@@ -10,6 +10,7 @@ class DetailExpenseController {
     const detailExpenseUseCase = container.resolve(DetailExpenseUseCase);
 
     const expenses = await detailExpenseUseCase.execute(id);
+    if (!expenses) return response.status(404).json(expenses);
 
     return response.status(200).json(expenses);
   }

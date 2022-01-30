@@ -20,13 +20,16 @@ class CreateExpenseUseCase {
     amount,
     date,
   }: ICreateExpenseRequest): Promise<void> {
+    if (!description)
+      throw new Error("Invalid description. Description is required");
+    if (!amount) throw new Error("Invalid amount. Amount is required");
+    if (!description) throw new Error("Invalid date. Date is required");
+
     const expenseAlreadyExists = await this.expenseRepository.getByDescription(
       description
     );
 
-    if (expenseAlreadyExists) {
-      throw new Error("Expense already exists!");
-    }
+    if (expenseAlreadyExists) throw new Error("Expense already exists.");
 
     await this.expenseRepository.create({
       description,

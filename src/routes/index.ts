@@ -4,6 +4,6 @@ import { expensesRoutes } from "./expenses.routes";
 
 const router = Router();
 
-router.use("/expenses", expensesRoutes);
+router.use("api/expenses", expensesRoutes);
 
 export { router };

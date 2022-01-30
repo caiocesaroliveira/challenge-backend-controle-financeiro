@@ -23,10 +23,12 @@ class UpdateExpenseUseCase {
     date,
   }: IUpdateExpenseRequest): Promise<void> {
     const expense = await this.expenseRepository.getById(id);
+    if (!expense) throw new Error("Expense not found.");
 
-    if (!expense) {
-      throw new Error("Expense not found!");
-    }
+    if (!description)
+      throw new Error("Invalid description. Description is required");
+    if (!amount) throw new Error("Invalid amount. Amount is required");
+    if (!description) throw new Error("Invalid date. Date is required");
 
     await this.expenseRepository.update({ id, description, amount, date });
   }
