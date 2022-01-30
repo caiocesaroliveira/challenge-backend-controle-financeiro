@@ -1,38 +1,34 @@
 import { getRepository, Repository } from "typeorm";
 
-import { Expense } from "../entities/Expense";
+import { Income } from "../entities/Income";
 import {
-  ICreateExpenseDTO,
-  IExpensesRepository,
-  IUpdateExpenseDTO,
-} from "./IExpensesRepository";
+  ICreateIncomeDTO,
+  IIncomesRepository,
+  IUpdateIncomeDTO,
+} from "./IIncomesRepository";
 
-class ExpensesRepository implements IExpensesRepository {
-  private repository: Repository<Expense>;
+class IncomesRepository implements IIncomesRepository {
+  private repository: Repository<Income>;
 
   constructor() {
-    this.repository = getRepository(Expense);
+    this.repository = getRepository(Income);
   }
-  async getAll(): Promise<Expense[]> {
-    const expenses = await this.repository.find();
-    return expenses;
+  async getAll(): Promise<Income[]> {
+    const incomes = await this.repository.find();
+    return incomes;
   }
-  async getById(id: string): Promise<Expense> {
+  async getById(id: string): Promise<Income> {
     const expense = await this.repository.findOne({ id });
     return expense;
   }
-  async getByDescription(description: string): Promise<Expense> {
+  async getByDescription(description: string): Promise<Income> {
     const expense = await this.repository.findOne({
       description,
     });
 
     return expense;
   }
-  async create({
-    description,
-    amount,
-    date,
-  }: ICreateExpenseDTO): Promise<void> {
+  async create({ description, amount, date }: ICreateIncomeDTO): Promise<void> {
     const expense = this.repository.create({
       description,
       amount,
@@ -46,7 +42,7 @@ class ExpensesRepository implements IExpensesRepository {
     description,
     amount,
     date,
-  }: IUpdateExpenseDTO): Promise<void> {
+  }: IUpdateIncomeDTO): Promise<void> {
     const expense = await this.repository.findOne(id);
 
     await this.repository.save({ ...expense, description, amount, date });
@@ -56,4 +52,4 @@ class ExpensesRepository implements IExpensesRepository {
   }
 }
 
-export { ExpensesRepository };
+export { IncomesRepository };
