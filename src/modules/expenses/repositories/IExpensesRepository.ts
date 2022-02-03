@@ -14,6 +14,7 @@ interface IUpdateExpenseDTO extends ICreateExpenseDTO {
 interface IExpensesRepository {
   getAll(): Promise<Expense[]>;
   getAllByDescription(description: string): Promise<Expense[]>;
+  getAllByMonth(year: number, month: string): Promise<Expense[]>;
   getById(id: string): Promise<Expense>;
   getByDescription(description: string): Promise<Expense>;
   create({
