@@ -25,6 +25,15 @@ class ExpensesRepository implements IExpensesRepository {
     });
     return expenses;
   }
+  async getAllByMonth(year: number, month: string): Promise<Expense[]> {
+    const expense = await this.repository
+      .createQueryBuilder("expense")
+      .where(`strftime('%Y', expense.date) = '${year}'`)
+      .andWhere(`strftime('%m', expense.date) = '${month}'`)
+      .getMany();
+
+    return expense;
+  }
   async getById(id: string): Promise<Expense> {
     const expense = await this.repository.findOne({ id });
     return expense;
