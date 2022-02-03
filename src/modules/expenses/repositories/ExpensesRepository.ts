@@ -1,4 +1,4 @@
-import { getRepository, Repository } from "typeorm";
+import { getRepository, Like, Repository } from "typeorm";
 
 import { Expense } from "../entities/Expense";
 import {
@@ -17,6 +17,14 @@ class ExpensesRepository implements IExpensesRepository {
     const expenses = await this.repository.find();
     return expenses;
   }
+  async getAllByDescription(description: string): Promise<Expense[]> {
+    const expenses = await this.repository.find({
+      where: {
+        description: Like(`%${description}%`),
+      },
+    });
+    return expenses;
+  }
   async getById(id: string): Promise<Expense> {
     const expense = await this.repository.findOne({ id });
     return expense;
@@ -32,11 +40,13 @@ class ExpensesRepository implements IExpensesRepository {
     description,
     amount,
     date,
+    category,
   }: ICreateExpenseDTO): Promise<void> {
     const expense = this.repository.create({
       description,
       amount,
       date,
+      category,
     });
 
     await this.repository.save(expense);
@@ -46,10 +56,17 @@ class ExpensesRepository implements IExpensesRepository {
     description,
     amount,
     date,
+    category,
   }: IUpdateExpenseDTO): Promise<void> {
     const expense = await this.repository.findOne(id);
 
-    await this.repository.save({ ...expense, description, amount, date });
+    await this.repository.save({
+      ...expense,
+      description,
+      amount,
+      date,
+      category,
+    });
   }
   async delete(id: string): Promise<void> {
     await this.repository.delete({ id });

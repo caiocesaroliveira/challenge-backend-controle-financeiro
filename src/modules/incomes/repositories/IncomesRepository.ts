@@ -1,4 +1,4 @@
-import { getRepository, Repository } from "typeorm";
+import { getRepository, Like, Repository } from "typeorm";
 
 import { Income } from "../entities/Income";
 import {
@@ -16,6 +16,14 @@ class IncomesRepository implements IIncomesRepository {
   async getAll(): Promise<Income[]> {
     const incomes = await this.repository.find();
     return incomes;
+  }
+  async getAllByDescription(description: string): Promise<Income[]> {
+    const expenses = await this.repository.find({
+      where: {
+        description: Like(`%${description}%`),
+      },
+    });
+    return expenses;
   }
   async getById(id: string): Promise<Income> {
     const expense = await this.repository.findOne({ id });

@@ -10,8 +10,15 @@ class ListExpenseUseCase {
     private expenseRepository: IExpensesRepository
   ) {}
 
-  async execute(): Promise<Expense[]> {
-    const expenses = await this.expenseRepository.getAll();
+  async execute(description): Promise<Expense[]> {
+    let expenses: Expense[];
+
+    if (description) {
+      expenses = await this.expenseRepository.getAllByDescription(description);
+    } else {
+      expenses = await this.expenseRepository.getAll();
+    }
+
     return expenses;
   }
 }

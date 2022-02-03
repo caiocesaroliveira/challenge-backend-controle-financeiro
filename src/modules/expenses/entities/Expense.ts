@@ -15,8 +15,8 @@ class Expense {
   @Column()
   date: Date;
 
-  // @Column()
-  // category: string;
+  @Column()
+  category: string;
 
   @CreateDateColumn()
   created_at: Date;

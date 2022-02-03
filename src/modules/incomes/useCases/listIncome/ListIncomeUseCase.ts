@@ -10,8 +10,15 @@ class ListIncomeUseCase {
     private incomeRepository: IIncomesRepository
   ) {}
 
-  async execute(): Promise<Income[]> {
-    const incomes = await this.incomeRepository.getAll();
+  async execute(description): Promise<Income[]> {
+    let incomes: Income[];
+
+    if (description) {
+      incomes = await this.incomeRepository.getAllByDescription(description);
+    } else {
+      incomes = await this.incomeRepository.getAll();
+    }
+
     return incomes;
   }
 }

@@ -6,6 +6,7 @@ interface ICreateExpenseRequest {
   description: string;
   amount: number;
   date: Date;
+  category?: string;
 }
 
 @injectable()
@@ -19,6 +20,7 @@ class CreateExpenseUseCase {
     description,
     amount,
     date,
+    category,
   }: ICreateExpenseRequest): Promise<void> {
     if (!description)
       throw new Error("Invalid description. Description is required");
@@ -35,6 +37,7 @@ class CreateExpenseUseCase {
       description,
       amount,
       date,
+      category: category?.trim() ? category : "Outras",
     });
   }
 }
