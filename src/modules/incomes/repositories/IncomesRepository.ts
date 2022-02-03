@@ -1,4 +1,4 @@
-import { getRepository, Like, Repository } from "typeorm";
+import { getRepository, Like, Raw, Repository } from "typeorm";
 
 import { Income } from "../entities/Income";
 import {
@@ -24,6 +24,15 @@ class IncomesRepository implements IIncomesRepository {
       },
     });
     return expenses;
+  }
+  async getAllByMonth(year: number, month: string): Promise<Income[]> {
+    const incomes = await this.repository
+      .createQueryBuilder("incomes")
+      .where(`strftime('%Y', incomes.date) = '${year}'`)
+      .andWhere(`strftime('%m', incomes.date) = '${month}'`)
+      .getMany();
+
+    return incomes;
   }
   async getById(id: string): Promise<Income> {
     const expense = await this.repository.findOne({ id });
